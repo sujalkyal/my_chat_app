@@ -12,21 +12,27 @@ model User {
   name String?
   email String @unique
   password String?
-  messages Message[]
+  blockedUsers String[] @default([])
 }
 
 model Message {
   id String @id @default(uuid())
   content String
   senderId String
-  sender User @relation(fields: [senderId],references: [id])
-  chatRoomId String
-  chatRoom ChatRoom @relation(fields: [chatRoomId],references: [id])
+  receiverId String
   createdAt DateTime @default(now())
 }
 
-model ChatRoom {
+model Group {
   id String @id @default(uuid())
   name String
-  messages Message[]
+  members String[] @default([])
+}
+
+model GroupMessages {
+  id String @id @default(uuid())
+  content String
+  senderId String
+  groupId String
+  createdAt DateTime @default(now())
 }
